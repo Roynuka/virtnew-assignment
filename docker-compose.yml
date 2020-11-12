@@ -1,0 +1,27 @@
+
+version: "3.0"
+services:
+        flaskapp:
+                build: ./flaskapp
+                image: roynuka/flaskappnew
+                deploy:
+                        replicas: 3
+                networks:
+                        - app
+        nginx:
+                build: ./nginx
+                image: roynuka/nginx
+                deploy:
+                        replicas: 3
+                ports:
+                        - 8080:80
+                networks:
+                        - app
+                depends_on:
+                        - flaskapp
+        redis:
+                image:
+                        redis
+networks:
+        app:
+                driver: overlay
